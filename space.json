@@ -1,0 +1,8 @@
+{
+  "runtime": "typescript",
+  "platformVersion": 26,
+  "entry": "client/dist/index.html",
+  "name": "仓鼠快跑",
+  "slug": "space",
+  "managedCronJobs": []
+}

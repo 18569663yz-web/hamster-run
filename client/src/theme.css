@@ -1,0 +1,84 @@
+@import "tailwindcss";
+@import "tailwindcss-safe-area";
+
+@theme {
+  --text-xs: 12px;
+  --text-xs--line-height: 16px;
+  --text-sm: 14px;
+  --text-sm--line-height: 20px;
+  --text-base: 16px;
+  --text-base--line-height: 24px;
+  --text-lg: 18px;
+  --text-lg--line-height: 28px;
+  --text-xl: 20px;
+  --text-xl--line-height: 28px;
+  --text-2xl: 24px;
+  --text-2xl--line-height: 32px;
+  --text-3xl: 30px;
+  --text-3xl--line-height: 36px;
+  --text-4xl: 36px;
+  --text-4xl--line-height: 40px;
+  --text-5xl: 48px;
+  --text-5xl--line-height: 52px;
+}
+
+:root {
+  color-scheme: light;
+  /* Morning Meadow UI — same world as the 3D track: light sky-blue to
+   * cream background, white/cream cards with rounded corners and soft
+   * shadows, grass-green primary buttons, gold accents, deep
+   * green-brown text. No dark arcade surfaces anywhere in the UI layer. */
+  --bg: #cfeafb;
+  --surface: #ffffff;
+  --text: #2e3d2a;
+  --dim: #68755f;
+  --border: #dfe9d5;
+  --accent: #58b368;
+  --radius: 18px;
+  --space-surface: var(--surface);
+  --space-surface-alt: #fff8e7;
+  --space-muted: var(--dim);
+  --space-border: var(--border);
+  --space-accent: var(--accent);
+  font-family: ui-rounded, system-ui, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+
+body {
+  background-color: #fdf6e0;
+  background-image: linear-gradient(180deg, #a5d6f5 0%, #cdebfb 26%, #eef9e3 58%, #fdf6e0 82%, #fff8e7 100%);
+  background-attachment: fixed;
+}
+
+/* Rounded, friendly display type for headings and key numbers — the
+ * same rounded bold voice everywhere, no pixel face, no hard offset
+ * shadows. */
+h1,
+h2,
+h3 {
+  font-family: ui-rounded, system-ui, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.font-display {
+  font-family: ui-rounded, system-ui, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+/* White/cream cards float on the meadow gradient with a soft shadow. */
+main section[class*="surface"] {
+  box-shadow: 0 6px 20px rgba(90, 140, 80, 0.1);
+}
+
+[role="dialog"] > div {
+  box-shadow: 0 18px 44px rgba(70, 110, 60, 0.22);
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:not(:disabled):active {
+  scale: 0.99;
+}

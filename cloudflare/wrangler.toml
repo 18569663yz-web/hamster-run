@@ -1,0 +1,40 @@
+# Hamster Run — Cloudflare configuration.
+# One Worker (API, this file's `main`) + one D1 database + one Pages
+# project (frontend). The Pages project is created/deployed by
+# deploy.sh; its settings live in the Cloudflare dashboard, not here.
+#
+# BEFORE the first deploy: replace the database_id below with the real
+# id printed by `wrangler d1 create hamster-run-db` (deploy.sh does
+# this automatically when the placeholder is still present).
+
+name = "hamster-run-api"
+main = "worker/src/index.ts"
+compatibility_date = "2025-09-01"
+compatibility_flags = ["nodejs_compat"]
+
+# The Worker answers ONLY /api/* — bind it as a route on the Pages
+# domain once the Pages project exists, e.g.:
+#   routes = [{ pattern = "hamster-run.pages.dev/api/*", zone_name = "" }]
+# For a workers.dev-only start no route is needed: the API is at
+# https://hamster-run-api.<your-subdomain>.workers.dev/api/*
+# and the frontend build can point __HAMSTER_API_BASE__ at that origin
+# (see DEPLOY.md §3, option B). Same-domain /api is preferred once a
+# custom domain or Pages route is attached.
+
+[[d1_databases]]
+binding = "DB"
+database_name = "hamster-run-db"
+database_id = "afb8d4c4-d7d8-43f4-9f3e-2524fa27ad6f"
+migrations_dir = "migrations"
+
+# Non-secret configuration. Secrets (MINT_SIGNER_PRIVATE_KEY) NEVER go
+# here — they are set with `wrangler secret put` (see DEPLOY.md §2).
+[vars]
+# SEPOLIA_RPC_URL = "https://ethereum-sepolia-rpc.publicnode.com"
+# WALLET_CONNECT_PROJECT_ID = ""  # public client id; the bundled default is used when unset
+
+# Daily champion settlement: 00:00 UTC every day. Deploying with this
+# section only ADDS the trigger — existing bindings (D1, secrets such as
+# MINT_SIGNER_PRIVATE_KEY) are untouched by a normal `wrangler deploy`.
+[triggers]
+crons = ["0 0 * * *"]

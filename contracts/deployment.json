@@ -1,0 +1,17 @@
+{
+  "network": "sepolia",
+  "chainId": 11155111,
+  "deployer": "0xD71bab0dcA1799d63CCa4E6a70A38eF0a8e56662",
+  "hamsterNFT": "0x83cc3505A00F3EE70C27f4ac2d82E6543249188D",
+  "hamsterNFTTx": "0x81c7bc564e097410ac1389cefc7927acf2992697635ddd5278ba8a236829550b",
+  "hamsterNFTGasUsed": "12291735",
+  "mintOpenTx": "0xef9833baeec98121d1ba249d2a78d6845ca2b511112c84628825f4c23ed55c0d",
+  "scoreLedger": "0xFB650C5503A2A05f01D4DF91e5a522EbD1Eba552",
+  "scoreLedgerTx": "0x40dda2af7922fd185a05ec77b4d774c91eec770fe348f53cad19fff72a3db59e",
+  "scoreLedgerGasUsed": "6195742",
+  "serverSigner": "0xD71bab0dcA1799d63CCa4E6a70A38eF0a8e56662",
+  "reporter": "0xD71bab0dcA1799d63CCa4E6a70A38eF0a8e56662",
+  "guardian": "0xD71bab0dcA1799d63CCa4E6a70A38eF0a8e56662",
+  "balanceAfter": "0.18999999964818517",
+  "deployedAt": "2026-11-01T19:20:26.013Z"
+}

@@ -1,0 +1,14 @@
+{
+  "network": "sepolia",
+  "chainId": 11155111,
+  "contract": "HamsterNFTv2",
+  "address": "0x15601070312Fd8071d11B6Bd2606B2A5D9ec620b",
+  "deployTx": "0x8159c16488d4ea7791e6802d628b0cf668010134ba454bb4dd499fc2aa8a3062",
+  "gasUsed": "13733478",
+  "mintOpenTx": "0xf48ea8a22b6023cc263325ca660a277d93bff2c536f755a37adeaf76279bc5d5",
+  "deployer": "0xD71bab0dcA1799d63CCa4E6a70A38eF0a8e56662",
+  "serverSigner": "0xD71bab0dcA1799d63CCa4E6a70A38eF0a8e56662",
+  "feeRecipient": "0xD71bab0dcA1799d63CCa4E6a70A38eF0a8e56662",
+  "mintPriceEth": "0.01",
+  "deployedAt": "2026-11-01T19:40:49.805Z"
+}

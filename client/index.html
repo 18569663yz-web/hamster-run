@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+    <meta name="color-scheme" content="light dark" />
+    <!-- Empty inline icon: stops the browser fetching /favicon.ico, which
+         lives outside the space's routes and fails auth. -->
+    <link rel="icon" href="data:," />
+    <title>仓鼠快跑</title>
+    <!-- Pre-boot watchdog (robustness fix, shared with the Cloudflare
+         build): inline on purpose — it must run BEFORE the bundled
+         module, so it survives the failure mode it guards against (a
+         stale cached page pointing at bundle files that no longer
+         exist, so the module never executes and the page stays a blank
+         gradient). Behaviour:
+           - a script/stylesheet load error before mount triggers ONE
+             automatic reload with a cache-busting query (never a loop);
+           - if the app has not mounted within 15s, a fallback card is
+             drawn with the real error text and a manual reload button.
+         Once the app mounts it sets window.__HAMSTER_BOOTED__, which
+         disarms the watchdog completely. -->
+    <script>
+      (function () {
+        var RELOAD_KEY = "hamster-watchdog-reloaded";
+        var booted = false;
+        var errors = [];
+        function noteError(msg) {
+          if (msg) errors.push(String(msg));
+        }
+        window.__HAMSTER_BOOT_ERRORS__ = errors;
+        window.addEventListener(
+          "error",
+          function (e) {
+            if (booted || window.__HAMSTER_BOOTED__) return;
+            var target = e.target;
+            var isResource =
+              target && target !== window && (target.tagName === "SCRIPT" || target.tagName === "LINK");
+            if (isResource) {
+              var src = target.src || target.href || "(unknown resource)";
+              noteError("资源加载失败: " + src);
+              maybeReloadOnce();
+            } else if (e.message) {
+              noteError(e.message);
+            }
+          },
+          true,
+        );
+        window.addEventListener("unhandledrejection", function (e) {
+          if (booted || window.__HAMSTER_BOOTED__) return;
+          noteError("未处理的异步错误: " + (e.reason && e.reason.message ? e.reason.message : e.reason));
+        });
+        function alreadyReloaded() {
+          try {
+            return sessionStorage.getItem(RELOAD_KEY) === "1";
+          } catch (err) {
+            return false;
+          }
+        }
+        function markReloaded() {
+          try {
+            sessionStorage.setItem(RELOAD_KEY, "1");
+          } catch (err) {
+            /* sessionStorage may itself be blocked; the URL flag below still prevents most loops */
+          }
+        }
+        function maybeReloadOnce() {
+          if (alreadyReloaded() || /[?&]__wd_retry=1/.test(location.search)) {
+            showFallback();
+            return;
+          }
+          markReloaded();
+          var sep = location.search ? "&" : "?";
+          location.replace(location.pathname + location.search + sep + "__wd_retry=1&_=" + Date.now() + location.hash);
+        }
+        function showFallback() {
+          if (booted || window.__HAMSTER_BOOTED__) return;
+          var root = document.querySelector("[data-generated-space-root]");
+          if (!root || document.getElementById("hamster-boot-fallback")) return;
+          var card = document.createElement("div");
+          card.id = "hamster-boot-fallback";
+          card.setAttribute("role", "alert");
+          card.style.cssText =
+            "position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(180deg,#a8d4f0,#fdf6d8);font-family:system-ui,sans-serif;z-index:9999;";
+          var detail = errors.length ? errors[errors.length - 1] : "页面脚本未能启动（15 秒超时）";
+          card.innerHTML =
+            '<div style="max-width:340px;width:100%;background:#fff;border-radius:18px;padding:20px;box-shadow:0 8px 30px rgba(60,90,50,.18);text-align:center;">' +
+            '<p style="margin:0 0 8px;font-size:17px;font-weight:800;color:#2e3d2a;">游戏没能打开</p>' +
+            '<p style="margin:0 0 6px;font-size:13px;line-height:1.5;color:#5a6b58;">通常是浏览器缓存了旧版页面。可以点下面的按钮重新加载。</p>' +
+            '<p style="margin:0 0 14px;font-size:11px;line-height:1.5;color:#8a4a44;word-break:break-all;">' +
+            detail.replace(/</g, "&lt;") +
+            "</p>" +
+            '<button type="button" id="hamster-boot-reload" style="background:#58b368;color:#fff;border:0;border-radius:999px;padding:10px 26px;font-size:14px;font-weight:800;cursor:pointer;">重新加载</button>' +
+            "</div>";
+          document.body.appendChild(card);
+          var btn = document.getElementById("hamster-boot-reload");
+          if (btn) {
+            btn.addEventListener("click", function () {
+              try {
+                sessionStorage.removeItem(RELOAD_KEY);
+              } catch (err) {}
+              var sep = location.search ? "&" : "?";
+              location.replace(location.pathname + location.search + sep + "_=" + Date.now() + location.hash);
+            });
+          }
+        }
+        window.__HAMSTER_WATCHDOG_FAIL__ = showFallback;
+        window.setTimeout(function () {
+          if (!window.__HAMSTER_BOOTED__) showFallback();
+        }, 15000);
+        // The app calls this (via main.tsx setting __HAMSTER_BOOTED__);
+        // also watch for the React root gaining children.
+        var mo = new MutationObserver(function () {
+          var root = document.querySelector("[data-generated-space-root]");
+          if (root && root.childNodes.length > 0) {
+            booted = true;
+            window.__HAMSTER_BOOTED__ = true;
+            mo.disconnect();
+          }
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+          var root = document.querySelector("[data-generated-space-root]");
+          if (root) mo.observe(root, { childList: true });
+        });
+      })();
+    </script>
+    <script src="./src/main.tsx" type="module"></script>
+  </head>
+  <body>
+    <div
+      data-generated-space-root=""
+      data-generated-space-slug="space"
+    ></div>
+  </body>
+</html>

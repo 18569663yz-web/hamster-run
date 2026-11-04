@@ -1,0 +1,32 @@
+# dependencies & build output
+node_modules/
+dist/
+dist-cvm/
+dist-worker/
+.space-build/
+.space-build-cvm/
+.bun-cache/
+.wrangler/
+.harness/
+*.tsbuildinfo
+
+# databases & local state
+app.db
+*.db
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+audits/
+
+# secrets — never commit
+.dev.vars
+.env
+.env.*
+deployer-wallet.json
+**/wallet.json
+*.pem
+*.key
+
+# logs & sync metadata
+*.log
+*.muse-github-snapshot-sync.json

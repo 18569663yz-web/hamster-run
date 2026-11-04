@@ -1,0 +1,16 @@
+# Cloudflare Pages response headers. deploy.sh copies this file into
+# the frontend dist before `wrangler pages deploy`.
+# Hashed bundle assets (JS/CSS/GLB/images/audio) are immutable: the
+# build gives every file a content hash in its name, so a new deploy
+# produces new URLs and old ones can be cached forever.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+/*.glb
+  Cache-Control: public, max-age=31536000, immutable
+# The HTML entry must always revalidate, so a new deploy is picked up
+# immediately (the in-page watchdog covers clients that still hold a
+# stale copy).
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+/*
+  X-Content-Type-Options: nosniff
