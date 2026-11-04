@@ -10,3 +10,5 @@ A 3D endless-runner game driven by real Squeekchain data: the daily track is gen
 Layout: `client/` game client, `server/` artifact-edition server, `cloudflare/` Workers/D1 edition (worker, migrations, deploy docs), `drizzle/` artifact-edition migrations, `contracts/` Solidity sources and deployment records.
 
 Note: this snapshot contains source code only. Binary game assets (3D models, images, music), databases, build outputs and any secret files are intentionally excluded (see `.gitignore`).
+
+squeekchain-project: 1dce7073-0a6f-4d5a-afd2-358b3d66a34a
